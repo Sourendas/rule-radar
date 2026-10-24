@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>RuleRadar — app map</title>
+<style>body{font:15px/1.5 system-ui,sans-serif;background:#0b1426;color:#e8eefc;max-width:900px;margin:30px auto;padding:0 20px}code{background:#13213d;padding:1px 6px;border-radius:5px}
+.step{background:#13213d;border-left:4px solid #ffb020;border-radius:8px;padding:10px 14px;margin:10px 0}h1{color:#ffb020}svg text{fill:#e8eefc;font:13px system-ui}</style></head><body>
+<h1>RuleRadar — app map</h1>
+<p>One action traced through the code: <b>press “Scan rules”</b>.</p>
+<svg viewBox="0 0 860 90" width="100%" role="img" aria-label="flow diagram">
+<g fill="#13213d" stroke="#ffb020"><rect x="5" y="20" width="150" height="50" rx="8"/><rect x="180" y="20" width="160" height="50" rx="8"/><rect x="365" y="20" width="160" height="50" rx="8"/><rect x="550" y="20" width="140" height="50" rx="8"/><rect x="715" y="20" width="140" height="50" rx="8"/></g>
+<g stroke="#93a4c8"><line x1="155" y1="45" x2="180" y2="45"/><line x1="340" y1="45" x2="365" y2="45"/><line x1="525" y1="45" x2="550" y2="45"/><line x1="690" y1="45" x2="715" y2="45"/></g>
+<text x="20" y="50">textarea + button</text><text x="195" y="50">app.js · run()</text><text x="378" y="50">scanner.js · scanRules</text><text x="570" y="50">tz.js · toUtc</text><text x="730" y="50">app.js · render</text></svg>
+<div class="step"><b>1. Input</b> — <code>index.html</code> <code>#rules</code> textarea and <code>#scan</code> button. Listener at the bottom of <code>src/app.js</code>.</div>
+<div class="step"><b>2. Orchestrate</b> — <code>src/app.js</code> <code>run()</code> saves the text, reads settings (home timezone, country) and calls <code>scanRules()</code>.</div>
+<div class="step"><b>3. Extract</b> — <code>src/scanner.js</code> <code>findDates()</code> (regex <code>DATE_RE</code>), <code>pickDeadline()</code>, <code>checkEligibility()</code>, <code>findRequirements()</code> (table <code>REQS</code>).</div>
+<div class="step"><b>4. Convert</b> — <code>src/tz.js</code> <code>resolveZone()</code> → <code>toUtc()</code> (two-pass IANA offset, handles DST) → <code>formatInZone()</code>.</div>
+<div class="step"><b>5. Show</b> — <code>src/app.js</code> <code>render()</code> builds the Deadline, Eligibility, Checklist and Key-dates cards; <code>countdown()</code> ticks every second; ticks go to <code>localStorage</code> key <code>rr:ticks:&lt;hash&gt;</code>.</div>
+<p><b>Where to change things:</b> new zone word → <code>tz.js FIXED/REGION</code>; new checklist rule → <code>scanner.js REQS</code>; look → <code>styles.css :root</code>. Tests: <code>test/scanner.test.js</code>.</p>
+</body></html>
