@@ -1,0 +1,11 @@
+{
+  "name": "rule-radar",
+  "version": "0.1.0",
+  "description": "Paste contest rules; get deadlines in your timezone, an eligibility check and a submission checklist.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test test/",
+    "start": "python3 -m http.server 8080"
+  }
+}
