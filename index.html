@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RuleRadar — contest rules, read from your side</title>
+  <meta name="description" content="Paste hackathon rules. Get the deadline in your timezone, an eligibility check for your country, and a submission checklist.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%230b1426' stroke='%23ffb020' stroke-width='3'/><path d='M16 16 L27 9' stroke='%23ffb020' stroke-width='3'/></svg>">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="16" cy="16" r="7" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".6"/><path d="M16 16 L26 9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+      <div><h1>RuleRadar</h1><p class="tag">Contest rules, read from your side of the world.</p></div>
+    </div>
+    <form class="settings" id="settings" onsubmit="return false">
+      <label>Home timezone <select id="tz"></select></label>
+      <label>Country <input id="country" list="countries" placeholder="e.g. India" autocomplete="off"></label>
+      <datalist id="countries"></datalist>
+    </form>
+  </header>
+
+  <main class="grid">
+    <section class="panel input">
+      <div class="panel-head"><h2>Paste the official rules</h2>
+        <div class="btns"><button id="sample" type="button" class="ghost">Load sample</button><button id="clear" type="button" class="ghost">Clear</button></div>
+      </div>
+      <textarea id="rules" spellcheck="false" placeholder="Copy the whole rules page (Ctrl+A, Ctrl+C) and paste it here…"></textarea>
+      <div class="row"><button id="scan" type="button" class="primary">Scan rules</button><span class="hint">Ctrl+Enter · runs in your browser, nothing is uploaded</span></div>
+    </section>
+
+    <section class="results" id="results">
+      <div class="panel empty" id="empty"><p>Paste a rules page (or load the sample) and press <b>Scan rules</b>.</p></div>
+    </section>
+  </main>
+  <footer class="foot">RuleRadar highlights clauses — it is not legal advice. Always read the full rules. · MIT · <a href="https://github.com/Sourendas/rule-radar">source</a></footer>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
