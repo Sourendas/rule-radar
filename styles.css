@@ -13,7 +13,7 @@ select,input{background:var(--panel);color:var(--text);border:1px solid var(--li
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
 .panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 h2{margin:0;font-size:15px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted)}
-textarea{width:100%;height:62vh;min-height:320px;resize:vertical;background:#0a1222;color:#cfdaf3;border:1px solid var(--line);border-radius:10px;padding:12px;font:12.5px/1.5 var(--mono)}
+textarea{width:100%;height:calc(100vh - 230px);min-height:300px;resize:vertical;background:#0a1222;color:#cfdaf3;border:1px solid var(--line);border-radius:10px;padding:12px;font:12.5px/1.5 var(--mono)}
 .row{display:flex;gap:12px;align-items:center;margin-top:10px}.hint{color:var(--muted);font-size:12px}
 button{font:inherit;border-radius:9px;border:1px solid var(--line);padding:8px 14px;cursor:pointer;color:var(--text);background:var(--panel2)}
 button.primary{background:var(--amber);color:#1a1300;border-color:var(--amber);font-weight:700;padding:9px 20px}
@@ -52,3 +52,4 @@ table.dates td.l{color:var(--muted);width:34%}table.dates td.t{font-weight:600}
 .progress{height:6px;background:#0a1222;border-radius:99px;overflow:hidden;margin:8px 0 4px}.progress i{display:block;height:100%;background:var(--green);transition:width .3s}
 .foot{color:var(--muted);font-size:12px;text-align:center;padding:10px 0 22px}
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--green);color:#062;padding:8px 16px;border-radius:9px;font-weight:700}
+.panel.input{position:sticky;top:12px}

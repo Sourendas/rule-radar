@@ -43,6 +43,7 @@ Build mode: fast
 ## Final Review
 - [x] Kernel verified on the real Build With AI rules page: deadline shows Tue, 27 Oct 2026, 02:30 IST with the date-change badge.
 - [x] Fix during review: sentence splitter broke "U.S. Treasury" into two sentences, which made a US entrant look excluded. Fixed with an abbreviation guard; test added.
+- [x] Fix during review: the real rules say "Winners Announced: On or around November 4th" with no year, so it was missed. Added year inference from earlier dates (flagged "YEAR ASSUMED" on screen) + 2 tests.
 - [x] Fix during review: video length lived in a separate bullet ("less than three (3) minutes"); now read from nearby sentences; test added.
 
 ## Code Tour and App Map
