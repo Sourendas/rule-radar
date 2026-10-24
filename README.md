@@ -33,7 +33,7 @@ Requires Node.js 18+ (uses the built-in test runner, no dependencies):
 npm test
 ```
 
-17 tests cover: ET/EDT/EST across the Nov 1 DST switch, fixed abbreviations and `UTC+5:30` offsets, Devpost-style date ranges, `@ 5:00pm EDT`, `21:00 UTC`, ISO dates, 12 am/pm, missing time/zone, country exclusions and aliases (no false positive from "laws of the United States", "India" ≠ "Indiana"), age rules, requirement extraction, Markdown export.
+19 tests cover: ET/EDT/EST across the Nov 1 DST switch, fixed abbreviations and `UTC+5:30` offsets, Devpost-style date ranges, `@ 5:00pm EDT`, `21:00 UTC`, ISO dates, 12 am/pm, missing time/zone, dates without a year ("November 4th"), country exclusions and aliases (no false positive from "laws of the United States", "India" ≠ "Indiana"), age rules, requirement extraction, Markdown export.
 
 ## How it works
 
@@ -44,7 +44,7 @@ npm test
 | `src/app.js` | Renders the cards, runs the countdown, saves settings and ticks in `localStorage`. |
 | `src/sample.js` | Fictional sample rules for the demo. |
 
-Extraction is rule-based (regular expressions + the browser's timezone database), so it is instant, free and private, and it can miss unusual wording. Dates need a year; a date with no zone is treated as UTC and flagged.
+Extraction is rule-based (regular expressions + the browser's timezone database), so it is instant, free and private, and it can miss unusual wording. A date with no year borrows the year of the previous date in the text; a date with no zone is treated as UTC. Both are flagged on screen.
 
 ## Built with the Devpost Learn Skill Pack
 

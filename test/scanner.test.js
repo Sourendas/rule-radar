@@ -117,3 +117,16 @@ test('hash is stable', () => {
   assert.equal(hashText('abc'), hashText('abc'));
   assert.notEqual(hashText('abc'), hashText('abd'));
 });
+
+test('date without year borrows the year from earlier dates and is flagged', () => {
+  const t = 'Judging Period: October 27, 2026 (10:00 am Eastern Time).\nWinners Announced: On or around November 4th (2:00 pm Eastern Time).';
+  const d = findDates(t);
+  assert.equal(d.length, 2);
+  assert.equal(d[1].yearInferred, true);
+  assert.equal(d[1].label, 'Winners Announced');
+  assert.equal(iso(d[1].utc), '2026-11-04T19:00:00.000Z');
+});
+
+test('lowercase "may" is not read as a month', () => {
+  assert.equal(findDates('Entrants may 2 times resubmit. Deadline: March 3, 2027 5:00 pm UTC').length, 1);
+});

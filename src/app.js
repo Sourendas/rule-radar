@@ -43,7 +43,8 @@ function render(r) {
       <div class="big">${esc(v.local)}<span class="zone">${esc(v.abbr)}</span>
       ${v.dayShift ? '<span class="badge b-amber">DATE CHANGES IN YOUR ZONE</span>' : ''}
       ${!d.zoneStated ? '<span class="badge b-red">ZONE NOT STATED — UTC ASSUMED</span>' : ''}
-      ${!d.timeStated ? '<span class="badge b-red">TIME NOT STATED — 23:59 ASSUMED</span>' : ''}</div>
+      ${!d.timeStated ? '<span class="badge b-red">TIME NOT STATED — 23:59 ASSUMED</span>' : ''}
+      ${d.yearInferred ? '<span class="badge b-muted">YEAR ASSUMED</span>' : ''}</div>
       <div class="orig">Rules say: <q>${esc(d.original)}</q> · ${esc(r.homeZone)}</div>
       <div class="countdown" id="countdown"></div></div>`);
   } else {
@@ -73,7 +74,7 @@ function render(r) {
   const others = r.dates.filter((d) => d !== r.deadline && !(r.deadline && d.utc === r.deadline.utc && d.kind === r.deadline.kind));
   if (others.length) out.push(`<div class="panel" id="card-dates"><h2>Key dates · your time</h2><table class="dates" style="margin-top:8px">${others.map((d) => `<tr>
     <td class="l">${esc(d.label)}${d.role === 'start' ? ' — opens' : d.role === 'end' ? ' — closes' : ''}</td>
-    <td class="t">${esc(d.view.local)} ${esc(d.view.abbr)}${d.view.dayShift ? '<span class="badge b-amber">+1 DAY</span>' : ''}</td>
+    <td class="t">${esc(d.view.local)} ${esc(d.view.abbr)}${d.view.dayShift ? '<span class="badge b-amber">+1 DAY</span>' : ''}${d.yearInferred ? '<span class="badge b-muted">YEAR ASSUMED</span>' : ''}${!d.zoneStated ? '<span class="badge b-red">ZONE?</span>' : ''}</td>
     <td class="orig">${esc(d.original)}</td></tr>`).join('')}</table></div>`);
   $('#results').innerHTML = out.join('');
 

@@ -9,7 +9,7 @@ const TIME = '(\\d{1,2})(?::(\\d{2}))?\\s*(a\\.?m\\.?|p\\.?m\\.?)?';
 const GAP = '[\\s,]*(?:\\(|@|at\\b|,)?\\s*';
 // Month D, YYYY | D Month YYYY | YYYY-MM-DD, then optional time and zone.
 const DATE_RE = new RegExp(
-  `(?:${MON}\\s+(\\d{1,2})(?:st|nd|rd|th)?,?\\s+(\\d{4})|(\\d{1,2})(?:st|nd|rd|th)?\\s+${MON},?\\s+(\\d{4})|(\\d{4})-(\\d{2})-(\\d{2}))` +
+  `(?:${MON}\\s+(\\d{1,2})(?:st|nd|rd|th)?\\b(?:,?\\s+(\\d{4}))?|(\\d{1,2})(?:st|nd|rd|th)?\\s+${MON},?\\s+(\\d{4})|(\\d{4})-(\\d{2})-(\\d{2}))` +
   `(?:(?:${GAP}|T)${TIME}(?![\\d/])(?:\\s*\\(?\\s*${ZONE})?)?(?:\\s*\\(?\\s*${ZONE})?`,
   'gi');
 
@@ -36,15 +36,25 @@ function kindOf(s) {
 }
 
 /** Find every dated mention. Each: {label, kind, utc, zoneLabel, zoneStated, timeStated, original, role} */
-export function findDates(text) {
+export function findDates(text, { now = Date.now() } = {}) {
   const out = [];
+  let lastYear = null;
   for (const s of sentences(text)) {
     const found = [];
     DATE_RE.lastIndex = 0;
     let m;
     while ((m = DATE_RE.exec(s))) {
-      let y, mo, d;
-      if (m[1]) { mo = MONTHS[m[1].slice(0, 3).toLowerCase()]; d = +m[2]; y = +m[3]; }
+      let y, mo, d, yearInferred = false;
+      if (m[1]) {
+        mo = MONTHS[m[1].slice(0, 3).toLowerCase()]; d = +m[2];
+        if (m[3]) y = +m[3];
+        else {
+          // "November 4th" with no year: only trust a capitalised month, then borrow the year from earlier dates.
+          if (!/^[A-Z]/.test(m[1]) || d < 1 || d > 31) continue;
+          y = lastYear || new Date(now).getUTCFullYear();
+          yearInferred = true;
+        }
+      }
       else if (m[4]) { d = +m[4]; mo = MONTHS[m[5].slice(0, 3).toLowerCase()]; y = +m[6]; }
       else { y = +m[7]; mo = +m[8]; d = +m[9]; }
       let h = m[10] != null ? +m[10] : null;
@@ -58,7 +68,9 @@ export function findDates(text) {
       const zone = resolveZone(zTok);
       const timeStated = h != null;
       const parts = { y, mo, d, h: timeStated ? h : 23, mi: timeStated ? mi : 59 };
+      if (!yearInferred) lastYear = y;
       found.push({
+        yearInferred,
         utc: toUtc(parts, zone || { offset: 0 }),
         zoneLabel: zone ? zone.label : 'UTC (assumed)',
         zoneStated: !!zone, timeStated,
